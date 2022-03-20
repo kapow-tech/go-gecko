@@ -34,7 +34,7 @@ gopher resources from [free-gophers-pack](https://github.com/MariaLetta/free-gop
 Installation with go get.
 
 ```
-go get -u github.com/superoo7/go-gecko
+go get -u github.com/kapow-tech/go-gecko
 ```
 
 For usage, checkout [Example folder for v3](/_example/v3)
@@ -48,7 +48,7 @@ import (
 	"net/http"
 	"time"
 
-	coingecko "github.com/superoo7/go-gecko/v3"
+	coingecko "github.com/kapow-tech/go-gecko/v3"
 )
 
 func main() {

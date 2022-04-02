@@ -7,9 +7,10 @@ type Ping struct {
 
 // SimpleSinglePrice https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
 type SimpleSinglePrice struct {
-	ID          string
-	Currency    string
-	MarketPrice float32
+	ID            string
+	Currency      string
+	MarketPrice   float32
+	LastUpdatedAt int
 }
 
 // SimpleSupportedVSCurrencies https://api.coingecko.com/api/v3/simple/supported_vs_currencies

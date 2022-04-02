@@ -86,15 +86,21 @@ func (c *Client) SimpleSinglePrice(id string, vsCurrency string) (*types.SimpleS
 		return nil, err
 	}
 	curr := (*t)[id]
+
+	// fmt.Println(curr["price"])
 	if len(curr) == 0 {
 		return nil, fmt.Errorf("id or vsCurrency not existed")
 	}
-	data := &types.SimpleSinglePrice{ID: id, Currency: vsCurrency, MarketPrice: curr[vsCurrency]}
+	// s, err := strconv.ParseFloat(curr[vsCurrency].float32, 32)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	data := &types.SimpleSinglePrice{ID: id, Currency: vsCurrency, MarketPrice: float32(curr[vsCurrency].(float64))}
 	return data, nil
 }
 
 // SimplePrice /simple/price Multiple ID and Currency (ids, vs_currencies)
-func (c *Client) SimplePrice(ids []string, vsCurrencies []string) (*map[string]map[string]float32, error) {
+func (c *Client) SimplePrice(ids []string, vsCurrencies []string) (*map[string]map[string]interface{}, error) {
 	params := url.Values{}
 	idsParam := strings.Join(ids[:], ",")
 	vsCurrenciesParam := strings.Join(vsCurrencies[:], ",")
@@ -102,13 +108,16 @@ func (c *Client) SimplePrice(ids []string, vsCurrencies []string) (*map[string]m
 	params.Add("ids", idsParam)
 	params.Add("vs_currencies", vsCurrenciesParam)
 
+	// add include_last_updated_at
+	params.Add("include_last_updated_at", "true")
+
 	url := fmt.Sprintf("%s/simple/price?%s", baseURL, params.Encode())
 	resp, err := c.MakeReq(url)
 	if err != nil {
 		return nil, err
 	}
-
-	t := make(map[string]map[string]float32)
+	// fmt.Println(resp)
+	t := make(map[string]map[string]interface{})
 	err = json.Unmarshal(resp, &t)
 	if err != nil {
 		return nil, err
